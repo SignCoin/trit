@@ -1,8 +1,12 @@
 # ADR 0001 — Trit library architecture
 
-- **Status:** Accepted
+- **Status:** Accepted, partially amended
 - **Date:** 2026-05-24
 - **Decision-makers:** Addam Boord
+- **Amendments:** [ADR 0002](0002-root-namespace-ternary.md) supersedes §D5 —
+  root C# namespace renamed from `Trit` to `Ternary`. Inline namespace
+  references in this document have been updated to match the current state;
+  the architectural reasoning is unchanged.
 
 ## Context
 
@@ -101,26 +105,31 @@ inlining, SIMD-friendly. The pattern is well-precedented in .NET's BCL
 type aliases via `global using` for the common cases:
 
 ```csharp
-global using Trit64       = Trit.Words.TritWord64<Trit.Encoding.TwoBitStorage>;
-global using DenseTrit64  = Trit.Words.TritWord64<Trit.Encoding.Base243Storage>;
+global using Trit64       = Ternary.Words.TritWord64<Ternary.Encoding.TwoBitStorage>;
+global using DenseTrit64  = Ternary.Words.TritWord64<Ternary.Encoding.Base243Storage>;
 ```
 
-### D5. Naming: package `Trit`, primitive type `Trit.Numerics.Trit`
+### D5. Naming: package `Trit`, primitive type `Ternary.Numerics.Trit`
 
-The package and root namespace are both `Trit`. The primitive type is also
-named `Trit` and lives in the `Trit.Numerics` sub-namespace. Consumer code
-typically writes `using Trit.Numerics;` and refers to the primitive as just
-`Trit`.
+> **Superseded by [ADR 0002](0002-root-namespace-ternary.md).** The original
+> decision was to use `Trit` as both the package ID *and* the C# root
+> namespace, with the primitive type also called `Trit` inside the
+> `Trit.Numerics` sub-namespace. In practice this created an unworkable
+> type-vs-namespace collision — any source file inside a `Trit.*`
+> sub-namespace could not refer to the `Trit` primitive type by its simple
+> name. ADR 0002 keeps the package ID, assembly name, and type name as
+> `Trit`, and renames the C# root namespace to `Ternary` to eliminate the
+> collision. The text below is the *current* state, post-amendment.
 
-This creates a latent ambiguity: if we ever add a static member named
-`Encoding`, `Words`, etc. to the `Trit` type, qualified references like
-`Trit.Encoding.TwoBitStorage` could become ambiguous to the C# compiler.
+The NuGet package ID, assembly name, and primitive type name are all `Trit`.
+The C# root namespace is `Ternary`. The primitive type lives in the
+`Ternary.Numerics` sub-namespace. Consumer code typically writes
+`using Ternary.Numerics;` and refers to the primitive as just `Trit` — the
+namespace import brings the type into scope unambiguously because the
+enclosing namespace (`Ternary`) no longer shadows it.
 
-**Mitigation.** Enforce a project rule: the `Trit` primitive type must not
-expose static members whose names collide with sub-namespaces
-(`Numerics`, `Encoding`, `Words`, `Arithmetic`, `Formatting`). This is
-documented here; a Roslyn analyzer could enforce it later if drift becomes
-a concern.
+Sub-namespaces are `Ternary.Numerics`, `Ternary.Encoding`, `Ternary.Words`,
+`Ternary.Arithmetic`, `Ternary.Formatting`.
 
 ### D6. Project layout: src / tests / benchmarks
 
