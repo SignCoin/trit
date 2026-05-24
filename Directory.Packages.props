@@ -1,0 +1,31 @@
+<Project>
+
+  <!--
+    Trit — Directory.Packages.props
+    Central Package Management: every PackageReference in this repo MUST be
+    version-less in its .csproj. Versions are pinned here.
+    Reference: https://learn.microsoft.com/nuget/consume-packages/Central-Package-Management
+  -->
+
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup Label="Test infrastructure">
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="xunit" Version="2.9.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.4" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+  </ItemGroup>
+
+  <ItemGroup Label="Property-based testing">
+    <PackageVersion Include="FsCheck" Version="3.3.0" />
+    <PackageVersion Include="FsCheck.Xunit" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Label="Benchmarking">
+    <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
+    <PackageVersion Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.14.0" />
+  </ItemGroup>
+
+</Project>

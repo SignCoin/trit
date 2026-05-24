@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Ternary</RootNamespace>
+    <AssemblyName>Trit</AssemblyName>
+    <PackageId>Trit</PackageId>
+    <Description>High-performance balanced ternary primitives for .NET 10.</Description>
+    <PackageTags>balanced-ternary;ternary;trit;numerics;performance</PackageTags>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
+
+</Project>

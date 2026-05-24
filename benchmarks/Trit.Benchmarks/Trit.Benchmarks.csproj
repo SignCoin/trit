@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Ternary.Benchmarks</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <!--
+      No native apphost. Run via `dotnet run -c Release` instead of invoking
+      the binary directly. Avoids a sandbox permission issue and is the
+      standard pattern for BenchmarkDotNet runners anyway.
+    -->
+    <UseAppHost>false</UseAppHost>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Trit\Trit.csproj" />
+  </ItemGroup>
+
+</Project>

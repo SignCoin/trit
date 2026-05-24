@@ -1,0 +1,60 @@
+<Project>
+
+  <!--
+    Trit — Directory.Build.props
+    Shared MSBuild properties applied to every project in this repo.
+    Project-level .csproj files should be minimal.
+  -->
+
+  <PropertyGroup Label="Language &amp; runtime">
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <!--
+      AnalysisMode "Recommended" (the default) is Microsoft's curated subset.
+      We deliberately do NOT set "AllEnabledByDefault" because several rules
+      it surfaces (CA1724, CA2225) contradict explicit ADR-0001 decisions
+      around naming and operator design.
+    -->
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <!--
+      Rule suppressions, with reasons:
+        CA1724  — type name 'Trit' deliberately matches namespace; see ADR-0001 §D5.
+        CA1815  — storage strategy structs (TwoBitStorage, Base243Storage) are stateless;
+                  default Equals already returns true tautologically. Adding ceremony noise.
+        CA2225  — rule wants specific alternate-method names (BitwiseAnd, etc.) that don't
+                  reflect balanced ternary semantics. Our chosen names (And/Or/Not) are correct.
+    -->
+    <NoWarn>$(NoWarn);CA1724;CA1815;CA2225</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Determinism &amp; reproducibility">
+    <Deterministic>true</Deterministic>
+    <DeterministicSourcePaths Condition="'$(GITHUB_ACTIONS)' == 'true'">true</DeterministicSourcePaths>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Central Package Management">
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package metadata defaults">
+    <Authors>Addam Boord</Authors>
+    <Company>Addam Boord</Company>
+    <Copyright>(c) $([System.DateTime]::Now.Year) Addam Boord</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/SignCoin/trit</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageProjectUrl>https://github.com/SignCoin/trit</PackageProjectUrl>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,92 @@
+###############################################################################
+# Trit — .editorconfig
+# Code style for .NET 10. Pairs with <EnforceCodeStyleInBuild>true</> so
+# violations fail the build, not just the IDE.
+###############################################################################
+
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Markdown — trailing spaces are sometimes meaningful (line breaks)
+[*.md]
+trim_trailing_whitespace = false
+
+# YAML / JSON — 2-space indent is convention
+[*.{yml,yaml,json}]
+indent_size = 2
+
+# Project / props / targets / config files
+[*.{csproj,props,targets,sln,slnx,config,xml}]
+indent_size = 2
+
+###############################################################################
+# C# code style
+###############################################################################
+[*.cs]
+
+# Sort usings: System namespaces first, then alphabetic
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# `var` — explicit types for everything; tighter for a perf library
+csharp_style_var_for_built_in_types = false:warning
+csharp_style_var_when_type_is_apparent = true:silent
+csharp_style_var_elsewhere = false:warning
+
+# Modern language features
+csharp_prefer_braces = true:warning
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_using_directive_placement = outside_namespace:warning
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_expression_bodied_methods = when_on_single_line:silent
+csharp_style_expression_bodied_properties = true:silent
+csharp_style_pattern_matching_over_is_with_cast_check = true:warning
+csharp_style_pattern_matching_over_as_with_null_check = true:warning
+csharp_style_throw_expression = true:suggestion
+csharp_style_conditional_delegate_call = true:warning
+
+# Modifier order
+csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async:warning
+
+# `readonly` everywhere it applies (huge for a value-type library)
+dotnet_style_readonly_field = true:warning
+
+# Null checks
+dotnet_style_coalesce_expression = true:warning
+dotnet_style_null_propagation = true:warning
+
+# Naming
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.severity = warning
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.symbols = interface_symbols
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.style = i_prefix_style
+dotnet_naming_symbols.interface_symbols.applicable_kinds = interface
+dotnet_naming_style.i_prefix_style.required_prefix = I
+dotnet_naming_style.i_prefix_style.capitalization = pascal_case
+
+# Type parameters with T prefix
+dotnet_naming_rule.type_parameters_should_have_t_prefix.severity = warning
+dotnet_naming_rule.type_parameters_should_have_t_prefix.symbols = type_parameter_symbols
+dotnet_naming_rule.type_parameters_should_have_t_prefix.style = t_prefix_style
+dotnet_naming_symbols.type_parameter_symbols.applicable_kinds = type_parameter
+dotnet_naming_style.t_prefix_style.required_prefix = T
+dotnet_naming_style.t_prefix_style.capitalization = pascal_case
+
+###############################################################################
+# Test project relaxations
+###############################################################################
+[tests/**/*.cs]
+# `var` is fine in tests — readability beats explicit types in arrange/act/assert
+csharp_style_var_elsewhere = true:silent
+csharp_style_var_for_built_in_types = true:silent
+# Underscore-named methods are common in test naming conventions like `Method_Scenario_Expectation`
+dotnet_diagnostic.CA1707.severity = none
+# Unused parameter check disabled for theory tests
+dotnet_diagnostic.IDE0060.severity = suggestion

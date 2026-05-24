@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/Trit.Benchmarks/Trit.Benchmarks.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Trit/Trit.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Trit.Tests/Trit.Tests.csproj" />
+  </Folder>
+</Solution>
